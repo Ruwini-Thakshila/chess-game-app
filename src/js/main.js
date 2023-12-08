@@ -4,7 +4,6 @@ const displayInfoElm = document.querySelector("#display-info");
 let playerTurn = 'black';
 playerElm.textContent = 'black';
 
-
 const pieces = [
     rookPiece, knightPiece, bishopPiece, queenPiece,kingPiece, bishopPiece, knightPiece, rookPiece,
     pawnPiece, pawnPiece, pawnPiece, pawnPiece, pawnPiece, pawnPiece, pawnPiece, pawnPiece,
@@ -97,10 +96,155 @@ function dragDrop(e){
 function checkIfValidMove(target){
     const targetId =  Number(target.getAttribute('piece-id'))
                     || Number(target.parentNode.getAttribute('piece-id'));
-    const startId = startPositionId;
+    const startId = Number(startPositionId);
     const piece = draggedElm.id;
     console.log(startId, targetId, piece);
 
+    if (piece === "pawn-piece"){
+        const starterRow = [8, 9, 10, 11, 12, 13, 14, 15];
+        if (
+            starterRow.includes(startId) && startId + 8 * 2 === targetId ||
+            (startId + 8) === targetId ||
+            (startId + 8) - 1 === targetId && document.querySelector(`[piece-id = "${(startId + 8) - 1 }"]`).firstChild ||
+            (startId + 8) + 1 === targetId && document.querySelector(`[piece-id = "${(startId + 8) + 1 }"]`).firstChild
+
+        ){
+            return true;
+        }
+    }else if (piece === "knight-piece"){
+        if (
+            startId + 8 * 2 + 1 === targetId ||
+            startId + 8 * 2 - 1 === targetId ||
+            startId + 8 - 2 === targetId ||
+            startId + 8 + 2 === targetId ||
+            startId - 8 * 2 + 1 === targetId ||
+            startId - 8 * 2 - 1 === targetId ||
+            startId - 8 - 2 === targetId ||
+            startId - 8 + 2 === targetId
+        ){return true;}
+    }else if (piece === "bishop-piece"){
+        if (
+            startId + 8 + 1 === targetId
+            ||
+            startId + 8 * 2 + 2 === targetId && !document.querySelector(`[piece-id = "${startId + 8 + 1}"]`).firstChild
+            ||
+            startId + 8 * 3 + 3 === targetId && !document.querySelector(`[piece-id = "${startId + 8 + 1}"]`).firstChild &&
+                    !document.querySelector(`[piece-id = "${startId + 8 * 2 + 2}"]`).firstChild
+            ||
+            startId + 8 * 4 + 4 === targetId && !document.querySelector(`[piece-id = "${startId + 8 + 1}"]`).firstChild &&
+                    !document.querySelector(`[piece-id = "${startId + 8 * 2 + 2}"]`).firstChild &&
+                    !document.querySelector(`[piece-id = "${startId + 8 * 3 + 3}"]`).firstChild
+            ||
+            startId + 8 * 5 + 5 === targetId && !document.querySelector(`[piece-id = "${startId + 8 + 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 2 + 2}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 3 + 3}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 4 + 4}"]`).firstChild
+            ||
+            startId + 8 * 6 + 6 === targetId && !document.querySelector(`[piece-id = "${startId + 8 + 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 2 + 2}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 3 + 3}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 4 + 4}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 5 + 5}"]`).firstChild
+            ||
+            startId + 8 * 7 + 7 === targetId && !document.querySelector(`[piece-id = "${startId + 8 + 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 2 + 2}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 3 + 3}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 4 + 4}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 5 + 5}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 6 + 6}"]`).firstChild
+            ||
+            //........
+            startId - 8 - 1 === targetId
+            ||
+            startId - 8 * 2 - 2 === targetId && !document.querySelector(`[piece-id = "${startId - 8 - 1}"]`).firstChild
+            ||
+            startId - 8 * 3 - 3 === targetId && !document.querySelector(`[piece-id = "${startId - 8 - 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 2 - 2}"]`).firstChild
+            ||
+            startId - 8 * 4 - 4 === targetId && !document.querySelector(`[piece-id = "${startId - 8 - 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 2 - 2}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 3 - 3}"]`).firstChild
+            ||
+            startId - 8 * 5 - 5 === targetId && !document.querySelector(`[piece-id = "${startId - 8 - 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 2 - 2}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 3 - 3}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 4 - 4}"]`).firstChild
+            ||
+            startId - 8 * 6 - 6 === targetId && !document.querySelector(`[piece-id = "${startId - 8 - 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 2 - 2}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 3 - 3}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 4 - 4}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 5 - 5}"]`).firstChild
+            ||
+            startId - 8 * 7 - 7 === targetId && !document.querySelector(`[piece-id = "${startId - 8 - 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 2 - 2}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 3 - 3}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 4 - 4}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 5 - 5}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 6 - 6}"]`).firstChild
+            ||
+            //......................
+            startId - 8 + 1 === targetId
+            ||
+            startId - 8 * 2 + 2 === targetId && !document.querySelector(`[piece-id = "${startId - 8 + 1}"]`).firstChild
+            ||
+            startId - 8 * 3 + 3 === targetId && !document.querySelector(`[piece-id = "${startId - 8 + 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 2 + 2}"]`).firstChild
+            ||
+            startId - 8 * 4 + 4 === targetId && !document.querySelector(`[piece-id = "${startId - 8 + 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 2 + 2}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 3 + 3}"]`).firstChild
+            ||
+            startId - 8 * 5 + 5 === targetId && !document.querySelector(`[piece-id = "${startId - 8 + 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 2 + 2}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 3 + 3}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 4 + 4}"]`).firstChild
+            ||
+            startId - 8 * 6 + 6 === targetId && !document.querySelector(`[piece-id = "${startId - 8 + 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 2 + 2}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 3 + 3}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 4 + 4}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 5 + 5}"]`).firstChild
+            ||
+            startId - 8 * 7 + 7 === targetId && !document.querySelector(`[piece-id = "${startId - 8 + 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 2 + 2}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 3 + 3}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 4 + 4}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 5 + 5}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId - 8 * 6 + 6}"]`).firstChild
+            ||
+            //...........
+            startId + 8 - 1 === targetId
+            ||
+            startId + 8 * 2 - 2 === targetId && !document.querySelector(`[piece-id = "${startId + 8 - 1}"]`).firstChild
+            ||
+            startId + 8 * 3 - 3 === targetId && !document.querySelector(`[piece-id = "${startId + 8 - 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 2 - 2}"]`).firstChild
+            ||
+            startId + 8 * 4 - 4 === targetId && !document.querySelector(`[piece-id = "${startId + 8 - 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 2 - 2}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 3 - 3}"]`).firstChild
+            ||
+            startId + 8 * 5 - 5 === targetId && !document.querySelector(`[piece-id = "${startId + 8 - 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 2 - 2}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 3 - 3}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 4 - 4}"]`).firstChild
+            ||
+            startId + 8 * 6 - 6 === targetId && !document.querySelector(`[piece-id = "${startId + 8 - 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 2 - 2}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 3 - 3}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 4 - 4}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 5 - 5}"]`).firstChild
+            ||
+            startId + 8 * 7 - 7 === targetId && !document.querySelector(`[piece-id = "${startId - 8 - 1}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 2 - 2}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 3 - 3}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 4 - 4}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 5 - 5}"]`).firstChild &&
+            !document.querySelector(`[piece-id = "${startId + 8 * 6 - 6}"]`).firstChild
+
+        ){return true;}
+    }
 }
 function changePlayer(){
     if (playerTurn === "black"){

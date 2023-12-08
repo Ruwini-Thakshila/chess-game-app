@@ -73,6 +73,7 @@ function dragDrop(e){
         if (takenByOpponent && valid){
             e.target.parentNode.append(draggedElm);
             e.target.remove();
+            checkWinner();
             changePlayer();
             return;
         }
@@ -87,6 +88,7 @@ function dragDrop(e){
 
         if (valid){
             e.target.append(draggedElm);
+            checkWinner();
             changePlayer();
             return;
         }
@@ -122,7 +124,7 @@ function checkIfValidMove(target){
             startId - 8 - 2 === targetId ||
             startId - 8 + 2 === targetId
         ){return true;}
-    }else if (piece === "bishop-piece"){
+    }else if (piece === "bishop-piece" || piece === "queen-piece"){
         if (
             startId + 8 + 1 === targetId
             ||
@@ -244,7 +246,20 @@ function checkIfValidMove(target){
             !document.querySelector(`[piece-id = "${startId + 8 * 6 - 6}"]`).firstChild
 
         ){return true;}
-    }else if (piece === "rook-piece"){
+    }else if (piece === "king-piece"){
+        if (
+            startId + 1 === targetId ||
+            startId - 1 === targetId ||
+            startId + 8 === targetId ||
+            startId - 8 === targetId ||
+            startId + 8 - 1 === targetId ||
+            startId + 8 + 1 === targetId ||
+            startId - 8 + 1 === targetId ||
+            startId - 8 - 1 === targetId
+        ){return true}
+    }
+
+    if (piece === "rook-piece" || piece === "queen-piece"){
         if (
             startId + 8 === targetId ||
             startId + 8 * 2 === targetId && !document.querySelector(`[piece-id = "${startId + 8}"]`).firstChild ||
@@ -380,5 +395,17 @@ function revertIds(){
 function reverseIds(){
     const allSquareElms = document.querySelectorAll('.square');
     allSquareElms.forEach((square, i) => square.setAttribute('piece-id', 63-i))
+}
 
+function checkWinner(){
+    const kingPieces = Array.from(document.querySelectorAll('#king-piece'));
+    if (!kingPieces.some(king => king.firstChild.classList.contains('white'))){
+        displayInfoElm.innerHTML = "Black Player wins!"
+        document.querySelectorAll('.square').forEach(square => square.firstChild?.setAttribute('draggable', false));
+    }
+
+    if (!kingPieces.some(king => king.firstChild.classList.contains('black'))){
+        displayInfoElm.innerHTML = "White Player wins!"
+        document.querySelectorAll('.square').forEach(square => square.firstChild?.setAttribute('draggable', false));
+    }
 }

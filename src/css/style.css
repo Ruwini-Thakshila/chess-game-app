@@ -67,7 +67,7 @@ path{
 #loader{
     width: 100%;
     margin-top: 0;
-    background-image: url("/src/img/img.png");
+    background-image: url("/src/img/background.png");
     background-repeat: no-repeat;
     background-size: cover;
 }

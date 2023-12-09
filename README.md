@@ -24,10 +24,6 @@ The goal of this project is to create a playable chess game that players may use
 1. Clone the repository: https://github.com/Ruwini-Thakshila/chess-game-app.git
 2. Start the game by opening index.html in your web browser.
 
-## Further Improvements
-- Legal moves highlighting
-- Add feature to play against AI opponent
-
 ## Contributing
 If you'd like to contribute to the project, follow these steps:
 

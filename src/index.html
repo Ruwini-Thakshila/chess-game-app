@@ -11,9 +11,16 @@
     <script defer src='./js/main.js'></script>
 </head>
 <body class="d-flex justify-content-center flex-column align-items-center">
-    <h2 class="text-center p-2">MASTER CHESS</h2>
-    <div id="game-board"></div>
-    <p>It is <span id="player"></span>'s turn</p>
-    <p id="display-info"></p>
+    <div class="mb-2 d-none" id="game-board"></div>
+    <p id="player-display" class="bg-primary text-white rounded text-white p-2 d-none">It is <span id="player"></span>'s turn</p>
+    <p class="d-none" id="display-info"></p>
+    <div id="loader">
+        <div class="vh-100 d-flex flex-column justify-content-center align-items-center">
+            <h1 id="info" class="text-white" >Welcome to Ruwini's Chess Board 👑</h1>
+            <button id="btn-loader" class="btn btn-warning fs-3">Let's Play!</button>
+            <button id="play-again" class="btn btn-primary fs-3 d-none">Play again</button>
+        </div>
+    </div>
+
 </body>
 </html>

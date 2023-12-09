@@ -1,28 +1,35 @@
-body{
+*{
     box-sizing: border-box;
+}
+
+body{
+    background-color: rgba(182, 173, 173, 0.82);
 }
 
 #game-board{
     width: 480px;
     height: 480px;
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     flex-wrap: wrap;
+    margin-top: 30px;
 }
 
 .square{
     height: 60px;
     width: 60px;
     position: relative;
+    z-index: 100;
 }
 
 .square svg{
-    width: 45px;
-    height: 45px;
-    margin: 7.5px;
+    width: 40px;
+    height: 40px;
+    margin: 10px;
     position: relative;
     z-index: -9;
 }
+
 
 path{
     position: relative;
@@ -34,11 +41,11 @@ path{
     z-index: 11;
 }
 .color-1{
-    background-color: rgb(110, 110, 98);
+    background-color: rgb(122, 122, 104);
 }
 
 .color-2{
-    background-color: rgba(166, 75, 75, 0.68);
+    background-color: rgba(166, 89, 75, 0.58);
 }
 
 .black{
@@ -46,5 +53,82 @@ path{
 }
 
 .white{
-    fill: rgb(255, 255, 255);
+    fill: rgba(255, 255, 255, 0.85);
+}
+
+.display{
+    display: none;
+}
+
+.red{
+    color: red;
+}
+
+#loader{
+    width: 100%;
+    margin-top: 0;
+    background-image: url("/src/img/img.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+@media all and (min-width: 375px) and (max-width: 549px){
+    #game-board{
+        width: 320px;
+        height: 320px;
+
+    }
+
+    .square{
+        height: 40px;
+        width: 40px;
+    }
+
+    .square svg{
+        width: 30px;
+        height: 30px;
+        margin: 5px;
+    }
+
+    #info,
+    #btn-loader,
+    #play-again{
+        font-size: 1.3rem;
+    }
+
+    #player-display{
+        font-size: 0.8rem;
+    }
+
+}
+
+@media all and (min-width: 320px) and (max-width: 374px){
+    #game-board{
+        width: 240px;
+        height: 240px;
+        margin-top: 50px;
+    }
+
+    .square{
+        height: 30px;
+        width: 30px;
+    }
+
+    .square svg{
+        width: 20px;
+        height: 20px;
+        margin: 5px;
+    }
+
+    #info,
+    #btn-loader,
+    #play-again{
+        font-size: 1.1rem;
+    }
+
+    #player-display{
+        margin-top: 20px;
+        font-size: 0.7rem;
+    }
+
 }

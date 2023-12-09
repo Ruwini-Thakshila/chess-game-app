@@ -1,8 +1,19 @@
 const gameBoardElm = document.querySelector("#game-board");
 const playerElm = document.querySelector("#player");
 const displayInfoElm = document.querySelector("#display-info");
+const btnLoaderElm = document.querySelector("#btn-loader");
+const loaderElm = document.querySelector("#loader");
+const infoElm = document.querySelector('#info');
 let playerTurn = 'black';
 playerElm.textContent = 'black';
+
+
+btnLoaderElm.addEventListener('click', () =>{
+    loaderElm.classList.add('d-none');
+    gameBoardElm.classList.remove('d-none');
+    playerElm.parentElement.classList.remove('d-none');
+    displayInfoElm.classList.remove('d-none');
+});
 
 const pieces = [
     rookPiece, knightPiece, bishopPiece, queenPiece,kingPiece, bishopPiece, knightPiece, rookPiece,
@@ -15,6 +26,7 @@ const pieces = [
     rookPiece, knightPiece, bishopPiece, queenPiece,kingPiece, bishopPiece, knightPiece, rookPiece,
 
 ];
+
 // Create the game board
 function createBoard(){
     pieces.forEach((piece, index) =>{
@@ -55,7 +67,6 @@ function dragStart(e){
     startPositionId = e.target.parentNode.getAttribute('piece-id');
     draggedElm = e.target;
 }
-
 function dragOver(e){
     e.preventDefault();
 }
@@ -79,7 +90,8 @@ function dragDrop(e){
         }
 
         if (takenPiece && !takenByOpponent){
-            displayInfoElm.textContent = "you cannot go here";
+            displayInfoElm.textContent = "you cannot move here, try again!";
+            displayInfoElm.classList.add('red');
             setTimeout(() =>{
                 displayInfoElm.textContent = ""
             }, 2000);
@@ -95,25 +107,30 @@ function dragDrop(e){
     }
 }
 
+
+// Check valid moves
 function checkIfValidMove(target){
     const targetId =  Number(target.getAttribute('piece-id'))
                     || Number(target.parentNode.getAttribute('piece-id'));
     const startId = Number(startPositionId);
-    const piece = draggedElm.id;
-    console.log(startId, targetId, piece);
+    const pieceId = draggedElm.id;
+    console.log(startId, targetId, pieceId);
+    console.log(draggedElm);
 
-    if (piece === "pawn-piece"){
+    // Check valid moves for pawns
+    if (pieceId === "pawn-piece"){
         const starterRow = [8, 9, 10, 11, 12, 13, 14, 15];
         if (
             starterRow.includes(startId) && startId + 8 * 2 === targetId ||
-            (startId + 8) === targetId ||
+            (startId + 8) === targetId && !document.querySelector(`[piece-id = "${(startId + 8)}"]`).firstChild ||
             (startId + 8) - 1 === targetId && document.querySelector(`[piece-id = "${(startId + 8) - 1 }"]`).firstChild ||
             (startId + 8) + 1 === targetId && document.querySelector(`[piece-id = "${(startId + 8) + 1 }"]`).firstChild
-
         ){
             return true;
         }
-    }else if (piece === "knight-piece"){
+
+        // Check valid moves for knights
+    }else if (pieceId === "knight-piece"){
         if (
             startId + 8 * 2 + 1 === targetId ||
             startId + 8 * 2 - 1 === targetId ||
@@ -124,7 +141,8 @@ function checkIfValidMove(target){
             startId - 8 - 2 === targetId ||
             startId - 8 + 2 === targetId
         ){return true;}
-    }else if (piece === "bishop-piece" || piece === "queen-piece"){
+        // Check valid moves for bishop and queen
+    }else if (pieceId === "bishop-piece" || pieceId === "queen-piece"){
         if (
             startId + 8 + 1 === targetId
             ||
@@ -246,7 +264,8 @@ function checkIfValidMove(target){
             !document.querySelector(`[piece-id = "${startId + 8 * 6 - 6}"]`).firstChild
 
         ){return true;}
-    }else if (piece === "king-piece"){
+        // Check valid moves for king
+    }else if (pieceId === "king-piece"){
         if (
             startId + 1 === targetId ||
             startId - 1 === targetId ||
@@ -259,7 +278,8 @@ function checkIfValidMove(target){
         ){return true}
     }
 
-    if (piece === "rook-piece" || piece === "queen-piece"){
+    // Check valid moves for rook and queen
+    if (pieceId === "rook-piece" || pieceId === "queen-piece"){
         if (
             startId + 8 === targetId ||
             startId + 8 * 2 === targetId && !document.querySelector(`[piece-id = "${startId + 8}"]`).firstChild ||
@@ -375,6 +395,7 @@ function checkIfValidMove(target){
         ){return true}
     }
 }
+// Change the player
 function changePlayer(){
     if (playerTurn === "black"){
         reverseIds();
@@ -387,25 +408,45 @@ function changePlayer(){
     }
 }
 
-
+// Reverse the Ids when changing the player
 function revertIds(){
     const allSquareElms = document.querySelectorAll('.square');
     allSquareElms.forEach((square, i) => square.setAttribute('piece-id', i));
 }
+
+//Revert the Ids after reversing
 function reverseIds(){
     const allSquareElms = document.querySelectorAll('.square');
     allSquareElms.forEach((square, i) => square.setAttribute('piece-id', 63-i))
 }
 
+// Check for winner
 function checkWinner(){
     const kingPieces = Array.from(document.querySelectorAll('#king-piece'));
     if (!kingPieces.some(king => king.firstChild.classList.contains('white'))){
-        displayInfoElm.innerHTML = "Black Player wins!"
-        document.querySelectorAll('.square').forEach(square => square.firstChild?.setAttribute('draggable', false));
+        const player = "Black";
+        displayWinnerWindow(player);
+
     }
 
     if (!kingPieces.some(king => king.firstChild.classList.contains('black'))){
-        displayInfoElm.innerHTML = "White Player wins!"
-        document.querySelectorAll('.square').forEach(square => square.firstChild?.setAttribute('draggable', false));
+        const player = "White";
+        displayWinnerWindow(player);
     }
 }
+const playAgainELm = document.querySelector('#play-again');
+
+function displayWinnerWindow(player){
+    gameBoardElm.classList.add('d-none');
+    playerElm.parentElement.classList.add('d-none');
+    displayInfoElm.classList.add('d-none');
+    loaderElm.classList.remove('d-none');
+    infoElm.innerText = "Congratulations...👏 " + player + " Player wins!";
+    btnLoaderElm.classList.add('d-none');
+    playAgainELm.classList.remove('d-none');
+}
+
+playAgainELm.addEventListener('click', ()=>{
+    location.reload();
+})
+

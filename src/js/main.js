@@ -397,14 +397,14 @@ function checkIfValidMove(target){
 }
 // Change the player
 function changePlayer(){
-    if (playerTurn === "black"){
+    if (playerTurn === "white"){
         reverseIds();
-        playerTurn = "white";
-        playerElm.textContent = "white"
+        playerTurn = "black";
+        playerElm.textContent = "black"
     }else{
         revertIds();
-        playerTurn = "black";
-        playerElm.textContent = "black";
+        playerTurn = "white";
+        playerElm.textContent = "white";
     }
 }
 

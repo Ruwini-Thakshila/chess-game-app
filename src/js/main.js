@@ -4,8 +4,8 @@ const displayInfoElm = document.querySelector("#display-info");
 const btnLoaderElm = document.querySelector("#btn-loader");
 const loaderElm = document.querySelector("#loader");
 const infoElm = document.querySelector('#info');
-let playerTurn = 'black';
-playerElm.textContent = 'black';
+let playerTurn = 'white';
+playerElm.textContent = 'white';
 
 
 btnLoaderElm.addEventListener('click', () =>{
@@ -43,10 +43,10 @@ function createBoard(){
             squareElm.classList.add(index % 2 === 0 ? "color-2" : "color-1")
         }
         if (index <= 15){
-            squareElm.firstChild.firstChild.classList.add('black')
+            squareElm.firstChild.firstChild.classList.add('white')
         }
         if (index >= 48){
-            squareElm.firstChild.firstChild.classList.add('white')
+            squareElm.firstChild.firstChild.classList.add('black')
         }
         gameBoardElm.append(squareElm);
     })
@@ -76,7 +76,7 @@ function dragDrop(e){
     const correctTurn = draggedElm.firstChild.classList.contains(playerTurn)
     const takenPiece = e.target.classList.contains('piece');
     const valid = checkIfValidMove(e.target);
-    const opponentTurn = playerTurn === 'white' ? 'black' : 'white';
+    const opponentTurn = playerTurn === 'black' ? 'white' : 'black';
     const takenByOpponent = e.target.firstChild?.classList.contains(opponentTurn);
 
     if (correctTurn){

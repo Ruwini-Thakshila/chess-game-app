@@ -4,7 +4,6 @@ This is a simple chess game app implemented using HTML, CSS, Bootstrap and JavaS
 The goal of this project is to create a playable chess game that players may use to compete with one against another. It contains all the conventional chess moves and rules for every piece.
 
 ## Screenshots
-![Welcome page](src/img/welcome_page.png)
 ![Chess game board](src/img/game_board.png)
 ![Display winner](src/img/winner_display.png)
 
